@@ -1,8 +1,10 @@
+# region Importy
 from PIL import Image
 import typing
 from tkinter import filedialog
 from pathlib import Path
 import logging
+# endregion
 
 logging.basicConfig(level=logging.INFO)
 
@@ -12,9 +14,9 @@ font_normal: tuple[str, int, str] = ("Arial", 20, "normal")
 font_small: tuple[str, int, str] = ("Arial", 10, "normal")
 
 
-def img_loader(ctk, vstup_dir: str) -> Any:
+def img_loader(ctk, vstup_dir: str):
     """Nahrává obrázky do apky."""
-    img: Any = ctk.CTkImage(light_image=Image.open(vstup_dir), size=(25, 25))
+    img = ctk.CTkImage(light_image=Image.open(vstup_dir), size=(25, 25))
     if not img:
         logging.error(f"Nepodařilo se načíst obrázek z {vstup_dir}")
         return None
@@ -25,12 +27,11 @@ def img_loader(ctk, vstup_dir: str) -> Any:
 #
 # region -- APP --
 
-ahoj:bool = True
-def app_init(self, name: str) -> None:
+def app_init(self, name: str, width:int, height:int) -> None:
     self.title(name)
     self.iconbitmap("./assets/ico.ico")
-    center_window(self, 1024, 768)
-    self.minsize(width=1024, height=768)
+    center_window(self, width, height)
+    self.minsize(width, height)
     self.resizable(True, True)
 
 
