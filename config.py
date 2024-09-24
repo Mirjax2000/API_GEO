@@ -25,7 +25,7 @@ def img_loader(ctk, vstup_dir: str) -> Any:
 #
 # region -- APP --
 
-
+ahoj:bool = True
 def app_init(self, name: str) -> None:
     self.title(name)
     self.iconbitmap("./assets/ico.ico")
@@ -91,6 +91,8 @@ def file_loader():
 
 
 def file_saver() -> str:
+    """Ahoj"""
+    
     file_path: str = filedialog.asksaveasfilename(
         title="Save Data",
         initialdir="./data",
