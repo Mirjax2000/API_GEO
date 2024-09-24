@@ -1,5 +1,5 @@
 from PIL import Image
-from typing import Any
+import typing
 from tkinter import filedialog
 from pathlib import Path
 import logging
@@ -48,7 +48,6 @@ def center_window(self, app_width: int, app_height: int) -> None:
 
 # endregion
 #
-
 # region FUNKCE
 
 
