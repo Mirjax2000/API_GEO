@@ -78,24 +78,25 @@ def create_menu(self, mb, cdm) -> tuple:
         "settings_btn": "Settings",
         "info_btn": "Info",
     }
+
     config: dict = {"corner_radius": border_radius, "font": menu_font}
     column: int = len(buttons)
 
-    for btns, cascade_name in buttons.items():
-        setattr(menu, btns, menu.add_cascade(cascade_name))
+    for name, label in buttons.items():
+        setattr(self, name, menu.add_cascade(label, **config))
 
     # end buttony -----------------------
 
     # drop menu
-    system_drop = cdm(widget=system_btn)
+    system_drop = cdm(widget=self.system_btn, **config)
     self.system_settings = system_drop.add_option("Settings")
     system_drop.add_separator()
     self.konec = system_drop.add_option("Exit", command=self.destroy)
     # --
-    settings_drop = cdm(widget=settings_btn)
+    settings_drop = cdm(widget=self.settings_btn, **config)
     self.api_settings = settings_drop.add_option("API settings")
     # --
-    info_drop = cdm(widget=info_btn)
+    info_drop = cdm(widget=self.info_btn, **config)
     self.about = info_drop.add_option("About")
     # --
     # end drop menu -------------------------
