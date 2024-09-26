@@ -1,0 +1,25 @@
+# requirements.txt
+
+black==24.8.0
+click==8.1.7
+colorama==0.4.6
+CTkMenuBar==0.8
+customtkinter==5.2.2
+darkdetect==0.8.0
+execnet==2.1.1
+iniconfig==2.0.0
+markdown-it-py==3.0.0
+mdurl==0.1.2
+mypy-extensions==1.0.0
+packaging==24.1
+pathspec==0.12.1
+pillow==10.4.0
+platformdirs==4.3.6
+pluggy==1.5.0
+pprintpp==0.4.0
+Pygments==2.18.0
+pytest==8.3.3
+pytest-clarity==1.0.1
+pytest-mock==3.14.0
+pytest-xdist==3.6.1
+rich==13.8.1

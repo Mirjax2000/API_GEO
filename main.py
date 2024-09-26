@@ -1,40 +1,27 @@
-from turtle import update
-import typing
-
-import ttkbootstrap as ttk
-from ttkbootstrap.constants import *
-from ttkbootstrap.dialogs import Messagebox
-from ttkbootstrap.style import Bootstyle
+import customtkinter as ctk
+import MoreCustomTkinterWidgets as mckw
+from CTkMenuBar import CTkMenuBar as mb
+from CTkMenuBar import CustomDropdownMenu as cdm
 
 import config as conf
 
 
-class App(ttk.Window):
+class App(ctk.CTk):
+    #
     def __init__(self) -> None:
-        super().__init__(themename='darkly')
-        conf.app_init(self, 'API_GEO', 1024,768)
-        self.menubar: Menubar = conf.run_and_control(self,Menubar)
-
-        self.rowconfigure(0, weight=0, uniform='a')
-        self.columnconfigure(0, weight=1, uniform='a')
-        
-
-
-class Menubar(ttk.Frame):
-    def __init__(self, parent) -> None:
-        self.parent: typing.Any = parent
-        super().__init__(parent,style="primary")
-        self.grid(row=0, column=0, sticky=NSEW)
-
-       
- 
-       
-        
-
+        self.theme: str = "system"
+        self.color: str = "blue"
+        self.mongo_db: bool = False
+        #
+        super().__init__()
+        conf.app_init(self, "mapibase", 1024, 768)
+        conf.appearance_mode(self.theme, self.color, ctk)
+        parent, column = conf.create_menu(self, mb, cdm)
+        conf.detect_db(self, ctk, parent, column)
 
         self.update_idletasks()
-        
 
-if __name__ == '__main__':
-    app:App = App()
+
+if __name__ == "__main__":
+    app: App = App()
     app.mainloop()
