@@ -1,7 +1,0 @@
-INFO:root:Rozliseni: 1024 x 768.
-INFO:root:Theme: dark, barva: blue
-ERROR:root:MongoDB: connect False
-INFO:root:instance is running. .!mainframe.!header
-INFO:root:instance is running. .!mainframe.!leftframe
-INFO:root:instance is running. .!mainframe.!playground
-INFO:root:instance is running. .!mainframe
