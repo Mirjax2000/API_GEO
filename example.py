@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # def has_duplicate(arr):
 #     for i in range(len(arr)):
 #         for j in range(i + 1, len(arr)):
@@ -35,3 +36,15 @@ def matrix_transpose(matrix):
 
 
 print(matrix_transpose(matrix))
+=======
+def prime_number(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+
+print(prime_number(7))
+>>>>>>> parent of 8128e21 (makame)
