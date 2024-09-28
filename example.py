@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # def has_duplicate(arr):
 #     for i in range(len(arr)):
 #         for j in range(i + 1, len(arr)):
@@ -48,3 +49,5 @@ def prime_number(n):
 
 print(prime_number(7))
 >>>>>>> parent of 8128e21 (makame)
+=======
+>>>>>>> parent of 0dcbe44 (makame)
