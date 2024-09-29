@@ -1,9 +1,11 @@
 # region Importy
 import logging as lg
 import typing
-from pathlib import Path
+import os
+from random import choice
 import customtkinter as ctk
 from customtkinter import filedialog
+from icecream import ic
 from PIL import Image
 
 # endregion
@@ -29,12 +31,13 @@ left_label_config: dict = {
     "font": medium_font,
     "anchor": "w",
     "compound": "left",
-    "height": 60,
+    "padx": 10,
+    "height": 70,
     "corner_radius": 4,
 }
 
 
-def img_loader(ctk, vstup_dir: str, size_img: int):
+def img_loader(vstup_dir: str, size_img: int):
     """Nahrává obrázky do apky."""
     img = ctk.CTkImage(light_image=Image.open(vstup_dir), size=(size_img, size_img))
     if not img:
@@ -126,7 +129,51 @@ def create_menu(self, mb, cdm, ctk) -> tuple:
 
 # endregion
 #
+# region LOGO
+def pick_logo():
+    logo_list: list = []
+    adresar: str = "./assets/logo/"
+
+    for soubor in os.listdir(adresar):
+        cesta_k_souboru = os.path.join(adresar, soubor)
+        logo_list.append(img_loader(cesta_k_souboru, 80))
+
+    logo = choice(logo_list)
+
+    return logo
+
+
+# endregion
+#
 # region LeftFrame
+cfg_frame: dict = {
+    "api": [
+        "api_frame",
+        0,
+        0,
+        "api_label",
+        "A.P.I",
+        img_loader("./assets/api_40.png", 30),
+    ],
+    "mongo": [
+        "mongo_frame",
+        1,
+        0,
+        "mongo_label",
+        "MongoDB",
+        img_loader("./assets/mongo_40.png", 30),
+    ],
+    "geo": [
+        "geo_frame",
+        2,
+        0,
+        "geo_label",
+        "G.E.O.",
+        img_loader("./assets/geo_40.png", 30),
+    ],
+}
+
+
 def make_frame_label(
     self,
     frame_name: str,
@@ -134,6 +181,7 @@ def make_frame_label(
     frame_col: int,
     label_name: str,
     label_txt: str,
+    img,
 ) -> None:
     frame = ctk.CTkFrame(self, **layout_config)
     setattr(self, frame_name, frame)
@@ -141,6 +189,7 @@ def make_frame_label(
     label = ctk.CTkLabel(
         frame,
         text=label_txt,
+        image=img,
         **left_label_config,
     )
     setattr(self, label_name, label)
@@ -151,6 +200,9 @@ def make_frame_label(
     # konec funkce
 
 
+#
+
+
 # endregion
 #
 # region FUNKCE
@@ -158,7 +210,7 @@ def make_frame_label(
 # region DETECT_DB
 def db_frame(self, ctk, parent, column: int) -> None:
     """vytvor kontrolni frame pro databazi"""
-    error_img = img_loader(ctk, "./assets/exclamation2.png", 40)
+    error_img = img_loader("./assets/error_40.png", 40)
     #
     self.detect_db_frame = ctk.CTkFrame(parent, fg_color="transparent")
     self.detect_db_frame.grid(row=0, column=column, sticky="e", padx=20)
@@ -174,7 +226,7 @@ def db_frame(self, ctk, parent, column: int) -> None:
     self.detect_db_label = ctk.CTkLabel(
         self.detect_db_frame, text="", font=medium_font, corner_radius=5
     )
-    self.detect_db_label.grid(row=0, column=1, sticky="ew", ipady=5, ipadx=5, padx=5)
+    self.detect_db_label.grid(row=0, column=1, sticky="ew", ipady=5, ipadx=5, padx=10)
     # konec funkce
 
 

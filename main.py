@@ -43,9 +43,9 @@ class MainFrame(ctk.CTkFrame):
         self.playground: PlayGround = conf.run_and_control(self, PlayGround)
 
         # MainFrame GRID
-        self.rowconfigure(0, weight=0, uniform="a")
-        self.rowconfigure(1, weight=1, uniform="b")
-        self.columnconfigure(0, weight=0, minsize=180, uniform="a")
+        self.rowconfigure(0, weight=0, uniform="a")  # Header
+        self.rowconfigure(1, weight=1, uniform="b")  # LeftFrame
+        self.columnconfigure(0, weight=0, uniform="a")
         self.columnconfigure(1, weight=1, uniform="b")
 
 
@@ -54,9 +54,29 @@ class Header(ctk.CTkFrame):
 
     def __init__(self, parent) -> None:
         self.parent = parent
-        super().__init__(parent, height=100, **conf.layout_config)
+        super().__init__(parent, fg_color="transparent")
         self.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=2, pady=2)
         #
+        self.logo_frame = ctk.CTkFrame(self, **conf.layout_config)
+        self.logo_frame.grid(row=0, column=0, sticky="nsew", padx=(0, 4))
+        #
+        self.logo_label = ctk.CTkLabel(
+            self.logo_frame,
+            text="",
+            image=conf.pick_logo(),
+            width=176,
+            height=96,
+            compound="center",
+        )
+        self.logo_label.grid(row=0, column=0, sticky="nsew", padx=2, pady=2)
+        #
+        self.choose_and_act = ctk.CTkFrame(self, height=100, **conf.layout_config)
+        self.choose_and_act.grid(row=0, column=1, sticky="nsew")
+        # Header GRID
+
+        self.columnconfigure(0, weight=0, minsize=180, uniform="a")
+        self.columnconfigure(1, weight=1, uniform="b")
+        self.rowconfigure(0, weight=0, minsize=100, uniform="a")
 
 
 class LeftFrame(ctk.CTkFrame):
@@ -67,22 +87,16 @@ class LeftFrame(ctk.CTkFrame):
         super().__init__(parent, **conf.layout_config)
         self.grid(row=1, column=0, sticky="nsew", padx=2, pady=2)
 
-        cfg_frame:dict = {
-            "api": ["api_frame", 0, 0, "api_label", "A.P.I"],
-            "mongo": ["mongo_frame", 1, 0, "mongo_label", "MongoDB"],
-            "geo": ["geo_frame", 2, 0, "geo_label", "G.E.O."],
-        }
+        for name in conf.cfg_frame:
+            conf.make_frame_label(self, *conf.cfg_frame[name])
+        #
+        # LeftFrame GRID
 
-        for name in cfg_frame:
-            conf.make_frame_label(self,*cfg_frame[name])
-
-       
-
-        self.columnconfigure(0, weight=1, uniform="a")
+        self.columnconfigure(0, weight=1, minsize=180, uniform="a")
 
 
 class PlayGround(ctk.CTkFrame):
-    """Levy frame"""
+    """playground"""
 
     def __init__(self, parent) -> None:
         self.parent = parent
