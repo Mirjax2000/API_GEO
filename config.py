@@ -14,7 +14,7 @@ from PIL import Image
 lg.basicConfig(filename="./app.log", filemode="w", level=lg.INFO)
 
 # region Promenne
-
+app_theme: list[str] = [""]
 border_radius: int = 4
 menu_font: tuple = ("Helvetica", 18)
 small_font: tuple = ("Helvetica", 14)
@@ -52,6 +52,7 @@ def appearance_mode(theme: str, color: str, ctk) -> None:
     # nastaveni Theme a scalingu
     ctk.set_appearance_mode(theme)
     ctk.set_default_color_theme(color)
+    app_theme[0] = theme
     #
     ctk.set_widget_scaling(1.0)
     ctk.set_window_scaling(1.0)
@@ -262,6 +263,7 @@ def appearance(self, ctk) -> None:
     ctk.set_appearance_mode(self.theme)
 
     log("Theme zmeneno:", "Info", self.theme)
+    app_theme[0] = self.theme
     # konec funkce
 
 
@@ -322,40 +324,22 @@ def file_saver() -> str:
     # konec funkce
 
 
-# def on_enter(event):
-#     """hover"""
-#     widget = event.widget.master
-#     widget.configure(fg_color="#1D1D1D")
-#     # konec funkce
-
-
 def button_1(event) -> None:
     """clicknuti mysi"""
     widget = event.widget.master  # label
     parent = widget.master  # label frame
     #
     grand_parent = parent.master  # cely LeftFrame
-    framy = grand_parent.winfo_children()
     #
-    for frame in framy:
-        labely = frame.winfo_children()
-        for label in labely:
+    for frame in grand_parent.winfo_children():
+        for label in frame.winfo_children():
             label.configure(fg_color="transparent")
-            #
-            label.bind("<Leave>", on_leave)
-            label.bind("<Enter>", on_enter)
-            #
-            widget.unbind("<Leave>")
-            widget.unbind("<Enter>")
+    match app_theme[0]:
+        case "dark":
+            widget.configure(fg_color="#4f4f4f")
+        case "light":
+            widget.configure(fg_color="#67b5ff")
 
-    widget.configure(fg_color="#4b88c4")
-    # konec funkce
-
-
-def on_leave(event):
-    """opusteni mysi"""
-    widget = event.widget.master
-    widget.configure(fg_color="transparent")
     # konec funkce
 
 
