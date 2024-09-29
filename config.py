@@ -1,8 +1,9 @@
 # region Importy
 import logging as lg
-import typing
 import os
+import typing
 from random import choice
+
 import customtkinter as ctk
 from customtkinter import filedialog
 from icecream import ic
@@ -13,6 +14,7 @@ from PIL import Image
 lg.basicConfig(filename="./app.log", filemode="w", level=lg.INFO)
 
 # region Promenne
+
 border_radius: int = 4
 menu_font: tuple = ("Helvetica", 18)
 small_font: tuple = ("Helvetica", 14)
@@ -20,19 +22,14 @@ medium_font: tuple = ("Helvetica", 18)
 large_font: tuple = ("Helvetica", 22)
 good_color: str = "#218909"
 error_color: str = "#a75a02"
-layout_config: dict = {
-    "fg_color": "transparent",
-    "border_width": 1,
-    "border_color": "gray",
-    "corner_radius": 4,
-}
+layout_config: dict = {"fg_color": "transparent", "border_width": 1}
 
 left_label_config: dict = {
     "font": medium_font,
     "anchor": "w",
     "compound": "left",
     "padx": 10,
-    "height": 70,
+    "height": 80,
     "corner_radius": 4,
 }
 
@@ -183,7 +180,7 @@ def make_frame_label(
     label_txt: str,
     img,
 ) -> None:
-    frame = ctk.CTkFrame(self, **layout_config)
+    frame = ctk.CTkFrame(self)
     setattr(self, frame_name, frame)
 
     label = ctk.CTkLabel(
@@ -192,11 +189,16 @@ def make_frame_label(
         image=img,
         **left_label_config,
     )
+
     setattr(self, label_name, label)
+    # label.bind("<Enter>", on_enter)
+    # label.bind("<Leave>", on_leave)
+    label.bind("<Button-1>", button_1)
 
-    frame.grid(row=frame_row, column=frame_col, sticky="ew", padx=1)
+    frame.grid(row=frame_row, column=frame_col, sticky="ew", padx=2, pady=1)
 
-    label.pack(fill="x", side="top", expand=True, pady=1)
+    label.pack(fill="x", side="top", expand=True)
+
     # konec funkce
 
 
@@ -317,6 +319,43 @@ def file_saver() -> str:
     else:
         log("path extraction: ", "Error", "FAIL")
         return "Soubor nebyl vybran"
+    # konec funkce
+
+
+# def on_enter(event):
+#     """hover"""
+#     widget = event.widget.master
+#     widget.configure(fg_color="#1D1D1D")
+#     # konec funkce
+
+
+def button_1(event) -> None:
+    """clicknuti mysi"""
+    widget = event.widget.master  # label
+    parent = widget.master  # label frame
+    #
+    grand_parent = parent.master  # cely LeftFrame
+    framy = grand_parent.winfo_children()
+    #
+    for frame in framy:
+        labely = frame.winfo_children()
+        for label in labely:
+            label.configure(fg_color="transparent")
+            #
+            label.bind("<Leave>", on_leave)
+            label.bind("<Enter>", on_enter)
+            #
+            widget.unbind("<Leave>")
+            widget.unbind("<Enter>")
+
+    widget.configure(fg_color="#4b88c4")
+    # konec funkce
+
+
+def on_leave(event):
+    """opusteni mysi"""
+    widget = event.widget.master
+    widget.configure(fg_color="transparent")
     # konec funkce
 
 

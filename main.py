@@ -25,7 +25,6 @@ class App(ctk.CTk):
         #
         # volame tridy
         self.main_frame: MainFrame = conf.run_and_control(self, MainFrame)
-
         self.update_idletasks()
 
 
@@ -35,7 +34,7 @@ class MainFrame(ctk.CTkFrame):
     def __init__(self, parent) -> None:
         self.parent = parent
         super().__init__(parent, fg_color="transparent")
-        self.pack(side="top", fill="both", expand=True)
+        self.pack(side="top", fill="both", expand=True, padx=2, pady=2)
         #
         # volame tridy
         self.header_frame: Header = conf.run_and_control(self, Header)
