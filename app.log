@@ -6,19 +6,7 @@ INFO:root:instance is running. .!mainframe.!leftframe
 INFO:root:instance is running. .!mainframe.!playground
 INFO:root:instance is running. .!mainframe
 INFO:root:widget .!mainframe.!leftframe.!ctkframe.!ctklabel
-INFO:root:widget .!mainframe.!leftframe.!ctkframe2.!ctklabel
-INFO:root:widget .!mainframe.!leftframe.!ctkframe3.!ctklabel
-INFO:root:widget .!mainframe.!leftframe.!ctkframe.!ctklabel
-INFO:root:widget .!mainframe.!leftframe.!ctkframe2.!ctklabel
-INFO:root:widget .!mainframe.!leftframe.!ctkframe3.!ctklabel
-INFO:root:widget .!mainframe.!leftframe.!ctkframe2.!ctklabel
-INFO:root:widget .!mainframe.!leftframe.!ctkframe.!ctklabel
 INFO:root:Theme zmeneno: light
-INFO:root:widget .!mainframe.!leftframe.!ctkframe.!ctklabel
+INFO:root:Theme zmeneno: dark
 INFO:root:widget .!mainframe.!leftframe.!ctkframe2.!ctklabel
-INFO:root:widget .!mainframe.!leftframe.!ctkframe3.!ctklabel
-INFO:root:widget .!mainframe.!leftframe.!ctkframe2.!ctklabel
-INFO:root:widget .!mainframe.!leftframe.!ctkframe.!ctklabel
-INFO:root:widget .!mainframe.!leftframe.!ctkframe2.!ctklabel
-INFO:root:widget .!mainframe.!leftframe.!ctkframe3.!ctklabel
-INFO:root:widget .!mainframe.!leftframe.!ctkframe2.!ctklabel
+INFO:root:Theme zmeneno: light

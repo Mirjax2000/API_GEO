@@ -1,13 +1,13 @@
-# def has_duplicate(arr):
-#     for i in range(len(arr)):
-#         for j in range(i + 1, len(arr)):
-#             if arr[i] == arr[j]:
-#                 return True
-#     return False
+def has_duplicate(arr):
+    for i in range(len(arr)):
+        for j in range(i + 1, len(arr)):
+            if arr[i] == arr[j]:
+                return True
+    return False
 
 
-pole: list = [1, 2, 3, 1]
-# print(has_duplicate(pole))
+pole: list = [1, 2, 3]
+print(has_duplicate(pole))
 
 
 # def transpose_matrix(matrix):
@@ -38,13 +38,13 @@ pole: list = [1, 2, 3, 1]
 
 
 
-def has_duplicate(arr):
-    seen: set[int] = set()  
-    for item in arr:
-        if item in seen:  
-            return True
-        seen.add(item)  
-    return False  
+# def has_duplicate(arr):
+#     seen: set[int] = set()  
+#     for item in arr:
+#         if item in seen:  
+#             return True
+#         seen.add(item)  
+#     return False  
 
-pole = [1, 2, 3, 1]
-print(has_duplicate(pole))  
+# pole = [1, 2, 3, 1]
+# print(has_duplicate(pole))  

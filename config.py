@@ -3,11 +3,14 @@ import logging as lg
 import os
 import typing
 from random import choice
+from pathlib import Path
+import time
 
 import customtkinter as ctk
 from customtkinter import filedialog
 from icecream import ic
 from PIL import Image
+import timeit
 
 # endregion
 
@@ -15,6 +18,8 @@ lg.basicConfig(filename="./app.log", filemode="w", level=lg.INFO)
 
 # region Promenne
 app_theme: list[str] = [""]
+dark_color: str = "#4f4f4f"
+light_color: str = "#67b5ff"
 border_radius: int = 4
 menu_font: tuple = ("Helvetica", 18)
 small_font: tuple = ("Helvetica", 14)
@@ -48,7 +53,7 @@ def img_loader(vstup_dir: str, size_img: int):
 # region -- APP --
 
 
-def appearance_mode(theme: str, color: str, ctk) -> None:
+def appearance(theme: str, color: str, ctk) -> None:
     # nastaveni Theme a scalingu
     ctk.set_appearance_mode(theme)
     ctk.set_default_color_theme(color)
@@ -106,7 +111,7 @@ def create_menu(self, mb, cdm, ctk) -> tuple:
     # drop menu
     system_drop = cdm(widget=self.system_btn, **config)
     self.system_settings = system_drop.add_option(
-        "Settings", command=lambda: appearance(self, ctk)
+        "Settings", command=lambda: change_theme(self,dark_color,light_color, ctk)
     )
 
     system_drop.add_separator()
@@ -192,8 +197,6 @@ def make_frame_label(
     )
 
     setattr(self, label_name, label)
-    # label.bind("<Enter>", on_enter)
-    # label.bind("<Leave>", on_leave)
     label.bind("<Button-1>", button_1)
 
     frame.grid(row=frame_row, column=frame_col, sticky="ew", padx=2, pady=1)
@@ -256,14 +259,33 @@ def detect_db(self, mongo) -> None:
 # endregion
 
 
-# appearance
-def appearance(self, ctk) -> None:
+def get_family(self):
+    """zjisti vztahy"""
+    temp = self.main_frame.left_frame.winfo_children()
+    labels: list = [item.winfo_children() for item in temp]
+
+    # konec funkce
+
+
+# change theme
+def change_theme(self, dark, light,ctk) -> None:
     "zmena theme"
+
     self.theme = "light" if self.theme == "dark" else "dark"
     ctk.set_appearance_mode(self.theme)
 
     log("Theme zmeneno:", "Info", self.theme)
     app_theme[0] = self.theme
+
+    app = self.main_frame.left_frame.winfo_children()
+    temp: list = list(item.winfo_children() for item in app)
+    labels: list = []
+    labels = [temp[i][0] for i in range(len(temp))]
+    for label in labels:
+        if label.cget('fg_color') == dark:
+            label.configure(fg_color =light)
+        elif label.cget("fg_color") == light:
+            label.configure(fg_color=dark)
     # konec funkce
 
 

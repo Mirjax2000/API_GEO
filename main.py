@@ -5,7 +5,7 @@ import MoreCustomTkinterWidgets as mctk
 from CTkMenuBar import CTkMenuBar as mb
 from CTkMenuBar import CustomDropdownMenu as cdm
 from icecream import ic
-
+import timeit
 import config as conf
 
 
@@ -18,7 +18,7 @@ class App(ctk.CTk):
         #
         super().__init__()
         conf.app_init(self, "mapibase", 1024, 768)
-        conf.appearance_mode(self.theme, self.color, ctk)
+        conf.appearance(self.theme, self.color, ctk)
         parent, column = conf.create_menu(self, mb, cdm, ctk)
         conf.db_frame(self, ctk, parent, column)
         conf.detect_db(self, self.mongo_db)
