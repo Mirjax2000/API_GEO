@@ -111,7 +111,7 @@ def create_menu(self, mb, cdm, ctk) -> tuple:
     # drop menu
     system_drop = cdm(widget=self.system_btn, **config)
     self.system_settings = system_drop.add_option(
-        "Settings", command=lambda: change_theme(self,dark_color,light_color, ctk)
+        "Settings", command=lambda: change_theme(self, ctk)
     )
 
     system_drop.add_separator()
@@ -268,7 +268,7 @@ def get_family(self):
 
 
 # change theme
-def change_theme(self, dark, light,ctk) -> None:
+def change_theme(self, ctk) -> None:
     "zmena theme"
 
     self.theme = "light" if self.theme == "dark" else "dark"
@@ -279,13 +279,12 @@ def change_theme(self, dark, light,ctk) -> None:
 
     app = self.main_frame.left_frame.winfo_children()
     temp: list = list(item.winfo_children() for item in app)
-    labels: list = []
     labels = [temp[i][0] for i in range(len(temp))]
     for label in labels:
-        if label.cget('fg_color') == dark:
-            label.configure(fg_color =light)
-        elif label.cget("fg_color") == light:
-            label.configure(fg_color=dark)
+        if label.cget("fg_color") == dark_color:
+            label.configure(fg_color=light_color)
+        elif label.cget("fg_color") == light_color:
+            label.configure(fg_color=dark_color)
     # konec funkce
 
 
@@ -359,10 +358,9 @@ def button_1(event) -> None:
     match app_theme[0]:
         case "dark":
             widget.configure(fg_color="#4f4f4f")
-            log("widget", "Info", widget)
         case "light":
             widget.configure(fg_color="#67b5ff")
-            log("widget", "Info", widget)
+            
 
     # konec funkce
 

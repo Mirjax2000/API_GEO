@@ -5,8 +5,19 @@ import MoreCustomTkinterWidgets as mctk
 from CTkMenuBar import CTkMenuBar as mb
 from CTkMenuBar import CustomDropdownMenu as cdm
 from icecream import ic
-import timeit
 import config as conf
+from api import Api
+
+
+def run_and_control(trida, parent):
+    """funkce na spousteni instanci a kontrola"""
+    instance = trida(parent)
+
+    if isinstance(instance, trida):
+        conf.log("instance is running.", "Info", instance)
+    else:
+        conf.log("Instance fail!!!", "Error", instance)
+    return instance
 
 
 class App(ctk.CTk):
@@ -24,7 +35,7 @@ class App(ctk.CTk):
         conf.detect_db(self, self.mongo_db)
         #
         # volame tridy
-        self.main_frame: MainFrame = conf.run_and_control(self, MainFrame)
+        self.main_frame: MainFrame = run_and_control(MainFrame, self)
         self.update_idletasks()
 
 
@@ -37,9 +48,9 @@ class MainFrame(ctk.CTkFrame):
         self.pack(side="top", fill="both", expand=True, padx=2, pady=2)
         #
         # volame tridy
-        self.header_frame: Header = conf.run_and_control(self, Header)
-        self.left_frame: LeftFrame = conf.run_and_control(self, LeftFrame)
-        self.playground: PlayGround = conf.run_and_control(self, PlayGround)
+        self.header_frame: Header = run_and_control(Header, self)
+        self.left_frame: LeftFrame = run_and_control(LeftFrame, self)
+        self.playground: PlayGround = run_and_control(PlayGround, self)
 
         # MainFrame GRID
         self.rowconfigure(0, weight=0, uniform="a")  # Header
@@ -101,6 +112,7 @@ class PlayGround(ctk.CTkFrame):
         self.parent = parent
         super().__init__(parent, **conf.layout_config)
         self.grid(row=1, column=1, sticky="nsew", padx=2, pady=2)
+        self.api = run_and_control(Api, self)
 
 
 if __name__ == "__main__":

@@ -3,10 +3,6 @@ INFO:root:Theme: dark, barva: blue
 ERROR:root:MongoDB: connect False
 INFO:root:instance is running. .!mainframe.!header
 INFO:root:instance is running. .!mainframe.!leftframe
+INFO:root:instance is running. .!mainframe.!playground.!api
 INFO:root:instance is running. .!mainframe.!playground
 INFO:root:instance is running. .!mainframe
-INFO:root:widget .!mainframe.!leftframe.!ctkframe.!ctklabel
-INFO:root:Theme zmeneno: light
-INFO:root:Theme zmeneno: dark
-INFO:root:widget .!mainframe.!leftframe.!ctkframe2.!ctklabel
-INFO:root:Theme zmeneno: light
