@@ -6,7 +6,7 @@
 #     return False
 
 
-# pole: list = [1, 2, 3, 1]
+pole: list = [1, 2, 3, 1]
 # print(has_duplicate(pole))
 
 
@@ -22,16 +22,29 @@
 
 #     return result
 
-matrix: list[list[int]] = [[1, 2, 3], [4, 5, 6]]
+# matrix: list[list[int]] = [[1, 2, 3], [4, 5, 6]]
 
 
-def matrix_transpose(matrix):
-    temp = zip(*matrix)
-    result = []
-    for row in temp:
-        result.append(list(row))
+# def matrix_transpose(matrix):
+#     temp = zip(*matrix)
+#     result = []
+#     for row in temp:
+#         result.append(list(row))
 
-    return result
+#     return result
 
 
-print(matrix_transpose(matrix))
+# print(matrix_transpose(matrix))
+
+
+
+def has_duplicate(arr):
+    seen: set[int] = set()  
+    for item in arr:
+        if item in seen:  
+            return True
+        seen.add(item)  
+    return False  
+
+pole = [1, 2, 3, 1]
+print(has_duplicate(pole))  

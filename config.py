@@ -337,8 +337,10 @@ def button_1(event) -> None:
     match app_theme[0]:
         case "dark":
             widget.configure(fg_color="#4f4f4f")
+            log("widget", "Info", widget)
         case "light":
             widget.configure(fg_color="#67b5ff")
+            log("widget", "Info", widget)
 
     # konec funkce
 
