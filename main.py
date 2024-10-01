@@ -1,4 +1,5 @@
 import logging as lg
+from tkinter import W
 
 import customtkinter as ctk
 import MoreCustomTkinterWidgets as mctk
@@ -7,17 +8,8 @@ from CTkMenuBar import CustomDropdownMenu as cdm
 from icecream import ic
 import config as conf
 from api import Api
-
-
-def run_and_control(trida, parent):
-    """funkce na spousteni instanci a kontrola"""
-    instance = trida(parent)
-
-    if isinstance(instance, trida):
-        conf.log("instance is running.", "Info", instance)
-    else:
-        conf.log("Instance fail!!!", "Error", instance)
-    return instance
+from mongo import Mongo
+from geo import Geo
 
 
 class App(ctk.CTk):
@@ -26,16 +18,14 @@ class App(ctk.CTk):
         self.theme: str = "dark"
         self.color: str = "blue"
         self.mongo_db = False
-        #
+        # --
         super().__init__()
         conf.app_init(self, "mapibase", 1024, 768)
         conf.appearance(self.theme, self.color, ctk)
-        parent, column = conf.create_menu(self, mb, cdm, ctk)
-        conf.db_frame(self, ctk, parent, column)
-        conf.detect_db(self, self.mongo_db)
-        #
+        conf.create_menu(self, mb, cdm, self.mongo_db, ctk)
+        # --
         # volame tridy
-        self.main_frame: MainFrame = run_and_control(MainFrame, self)
+        self.main_frame: MainFrame = conf.run_and_control(self, MainFrame)
         self.update_idletasks()
 
 
@@ -46,12 +36,12 @@ class MainFrame(ctk.CTkFrame):
         self.parent = parent
         super().__init__(parent, fg_color="transparent")
         self.pack(side="top", fill="both", expand=True, padx=2, pady=2)
-        #
+        # --
         # volame tridy
-        self.header_frame: Header = run_and_control(Header, self)
-        self.left_frame: LeftFrame = run_and_control(LeftFrame, self)
-        self.playground: PlayGround = run_and_control(PlayGround, self)
-
+        self.header_frame: LogoFrame = conf.run_and_control(self, LogoFrame)
+        self.left_frame: LeftFrame = conf.run_and_control(self, LeftFrame)
+        self.playground: PlayGround = conf.run_and_control(self, PlayGround)
+        # --
         # MainFrame GRID
         self.rowconfigure(0, weight=0, uniform="a")  # Header
         self.rowconfigure(1, weight=1, uniform="b")  # LeftFrame
@@ -59,33 +49,25 @@ class MainFrame(ctk.CTkFrame):
         self.columnconfigure(1, weight=1, uniform="b")
 
 
-class Header(ctk.CTkFrame):
+class LogoFrame(ctk.CTkFrame):
     """Horni frame"""
 
     def __init__(self, parent) -> None:
         self.parent = parent
-        super().__init__(parent, fg_color="transparent")
-        self.grid(row=0, column=0, columnspan=2, sticky="nsew", padx=2, pady=2)
-        #
-        self.logo_frame = ctk.CTkFrame(self, **conf.layout_config)
-        self.logo_frame.grid(row=0, column=0, sticky="nsew", padx=(0, 4))
-        #
+        super().__init__(parent, **conf.layout_config)
+        self.grid(row=0, column=0, sticky="nsew", padx=2, pady=2)
+        # --
         self.logo_label = ctk.CTkLabel(
-            self.logo_frame,
+            self,
             text="",
             image=conf.pick_logo(),
-            width=176,
-            height=96,
+            width=180,
+            height=100,
             compound="center",
         )
         self.logo_label.grid(row=0, column=0, sticky="nsew", padx=2, pady=2)
-        #
-        self.choose_and_act = ctk.CTkFrame(self, height=100, **conf.layout_config)
-        self.choose_and_act.grid(row=0, column=1, sticky="nsew")
-        # Header GRID
-
+        # --
         self.columnconfigure(0, weight=0, minsize=180, uniform="a")
-        self.columnconfigure(1, weight=1, uniform="b")
         self.rowconfigure(0, weight=0, minsize=100, uniform="a")
 
 
@@ -96,12 +78,11 @@ class LeftFrame(ctk.CTkFrame):
         self.parent = parent
         super().__init__(parent, **conf.layout_config)
         self.grid(row=1, column=0, sticky="nsew", padx=2, pady=2)
-
+        # --
         for name in conf.cfg_frame:
             conf.make_frame_label(self, *conf.cfg_frame[name])
-        #
+        # --
         # LeftFrame GRID
-
         self.columnconfigure(0, weight=1, minsize=180, uniform="a")
 
 
@@ -110,9 +91,9 @@ class PlayGround(ctk.CTkFrame):
 
     def __init__(self, parent) -> None:
         self.parent = parent
-        super().__init__(parent, **conf.layout_config)
-        self.grid(row=1, column=1, sticky="nsew", padx=2, pady=2)
-        self.api = run_and_control(Api, self)
+        super().__init__(parent, fg_color="transparent")
+        self.grid(row=0, rowspan=2, column=1, sticky="nsew", padx=2, pady=2)
+        # --
 
 
 if __name__ == "__main__":

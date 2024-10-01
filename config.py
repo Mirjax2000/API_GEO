@@ -1,4 +1,5 @@
 # region Importy
+from email.mime import image
 import logging as lg
 import os
 import typing
@@ -16,7 +17,7 @@ import timeit
 
 lg.basicConfig(filename="./app.log", filemode="w", level=lg.INFO)
 
-# region Promenne
+# region -- VAR --
 app_theme: list[str] = [""]
 dark_color: str = "#4f4f4f"
 light_color: str = "#67b5ff"
@@ -25,8 +26,6 @@ menu_font: tuple = ("Helvetica", 18)
 small_font: tuple = ("Helvetica", 14)
 medium_font: tuple = ("Helvetica", 18)
 large_font: tuple = ("Helvetica", 22)
-good_color: str = "#218909"
-error_color: str = "#a75a02"
 layout_config: dict = {"fg_color": "transparent", "border_width": 1}
 
 left_label_config: dict = {
@@ -35,7 +34,7 @@ left_label_config: dict = {
     "compound": "left",
     "padx": 10,
     "height": 80,
-    "corner_radius": 4,
+    "corner_radius": border_radius,
 }
 
 
@@ -91,23 +90,27 @@ def center_window(self, app_width: int, app_height: int) -> None:
 
 # endregion
 #
-# region MENU
-def create_menu(self, mb, cdm, ctk) -> tuple:
+# region -- MENU --
+def create_menu(self, mb, cdm,mongo, ctk) -> None:
     """Vytvor menu bar"""
-    menu = mb(self, height=40, padx=10)
+    menu = mb(self, height=40, padx=10, bg_color=("#dbdbdb", "black"))
     buttons: dict = {
-        "system_btn": "System",
-        "settings_btn": "Settings",
-        "info_btn": "Info",
+        "system_btn": " System ",
+        "settings_btn": " Settings ",
+        "info_btn": " Info ",
     }
-    config: dict = {"corner_radius": border_radius, "font": menu_font}
-    column: int = len(buttons)
+    column: int = len(buttons)  # pocet menu btns
+
+    config: dict = {
+        "corner_radius": border_radius,
+        "font": menu_font,
+        "hover_color": (light_color, dark_color),
+    }
 
     for name, label in buttons.items():
         setattr(self, name, menu.add_cascade(label, **config))
-
     # end buttony -----------------------
-
+    # --
     # drop menu
     system_drop = cdm(widget=self.system_btn, **config)
     self.system_settings = system_drop.add_option(
@@ -124,13 +127,49 @@ def create_menu(self, mb, cdm, ctk) -> tuple:
     self.about = info_drop.add_option("About")
     # --
     # end drop menu -------------------------
-    menu.columnconfigure(column, weight=1)
+    menu.columnconfigure(column, weight=1, uniform="a")
+    db_frame(self, ctk, menu, column)
 
-    return (menu, column)
     # konec funkce
 
 
-# endregion
+def db_frame(self, ctk, parent, column: int) -> None:
+    """vytvor kontrolni frame pro databazi"""
+    #
+    self.detect_db_frame = ctk.CTkFrame(parent, fg_color="transparent")
+    self.detect_db_frame.grid(row=0, column=column, sticky="e", padx=20)
+    # --
+    self.detect_db_label = ctk.CTkLabel(
+        self.detect_db_frame,
+        text="",
+        font=medium_font,
+        text_color=("black", "white"),
+        compound="left",
+    )
+    self.detect_db_label.grid(row=0, column=0, sticky="ew")
+    # konec funkce
+
+
+def detect_db(self, mongo) -> None:
+    """detekuj databazi"""
+    error_img = img_loader("./assets/error_40.png", 40)
+    mongo_img = img_loader("./assets/mongo_40.png", 40)
+    match mongo:
+        case True:
+            self.detect_db_label.configure(
+                text="Mongo: connected",
+                image=mongo_img,
+            )
+            log("Mongo: connect", "Info", mongo)
+
+        case False:
+            self.detect_db_label.configure(
+                text="Mongo: disconnected", image=error_img, padx=10
+            )
+            log("Mongo: connect", "Error", mongo)
+    # konec funkce
+
+
 #
 # region LOGO
 def pick_logo():
@@ -206,59 +245,12 @@ def make_frame_label(
     # konec funkce
 
 
-#
-
-
 # endregion
 #
-# region FUNKCE
-#
-# region DETECT_DB
-def db_frame(self, ctk, parent, column: int) -> None:
-    """vytvor kontrolni frame pro databazi"""
-    error_img = img_loader("./assets/error_40.png", 40)
-    #
-    self.detect_db_frame = ctk.CTkFrame(parent, fg_color="transparent")
-    self.detect_db_frame.grid(row=0, column=column, sticky="e", padx=20)
-    #
-    self.detect_db_error = ctk.CTkLabel(
-        self.detect_db_frame,
-        text="",
-        image=error_img,
-        compound="center",
-    )
-    self.detect_db_error.grid(row=0, column=0, sticky="ew")
-    #
-    self.detect_db_label = ctk.CTkLabel(
-        self.detect_db_frame, text="", font=medium_font, corner_radius=5
-    )
-    self.detect_db_label.grid(row=0, column=1, sticky="ew", ipady=5, ipadx=5, padx=10)
-    # konec funkce
-
-
-def detect_db(self, mongo) -> None:
-    """detekuj databazi"""
-    match mongo:
-        case True:
-            self.detect_db_error.grid_remove()
-            self.detect_db_label.configure(
-                text="MongoDB: connected", fg_color=good_color
-            )
-            log("MongoDB: connect", "Info", mongo)
-
-        case False:
-            self.detect_db_error.grid()
-            self.detect_db_label.configure(
-                text="MongoDB: disconnected",
-                fg_color=error_color,
-            )
-            log("MongoDB: connect", "Error", mongo)
-    # konec funkce
-
-
 # endregion
-
-
+#
+# region -- FUNKCE --
+#
 def get_family(self):
     """zjisti vztahy"""
     temp = self.main_frame.left_frame.winfo_children()
@@ -276,15 +268,6 @@ def change_theme(self, ctk) -> None:
 
     log("Theme zmeneno:", "Info", self.theme)
     app_theme[0] = self.theme
-
-    app = self.main_frame.left_frame.winfo_children()
-    temp: list = list(item.winfo_children() for item in app)
-    labels = [temp[i][0] for i in range(len(temp))]
-    for label in labels:
-        if label.cget("fg_color") == dark_color:
-            label.configure(fg_color=light_color)
-        elif label.cget("fg_color") == light_color:
-            label.configure(fg_color=dark_color)
     # konec funkce
 
 
@@ -348,19 +331,15 @@ def file_saver() -> str:
 def button_1(event) -> None:
     """clicknuti mysi"""
     widget = event.widget.master  # label
-    parent = widget.master  # label frame
-    #
-    grand_parent = parent.master  # cely LeftFrame
+    widget_text = widget.cget("text")
+
+    grand_parent = widget.master.master  # cely LeftFrame
     #
     for frame in grand_parent.winfo_children():
         for label in frame.winfo_children():
             label.configure(fg_color="transparent")
-    match app_theme[0]:
-        case "dark":
-            widget.configure(fg_color="#4f4f4f")
-        case "light":
-            widget.configure(fg_color="#67b5ff")
-            
+
+    widget.configure(fg_color=(light_color, "#4f4f4f"))
 
     # konec funkce
 
