@@ -1,17 +1,15 @@
 # region Importy
-from email.mime import image
+import json
+from lib2to3.fixes.fix_next import bind_warning
 import logging as lg
 import os
-import typing
-from random import choice
 from pathlib import Path
-import time
+from random import choice
 
 import customtkinter as ctk
 from customtkinter import filedialog
 from icecream import ic
 from PIL import Image
-import timeit
 
 # endregion
 
@@ -19,6 +17,7 @@ lg.basicConfig(filename="./app.log", filemode="w", level=lg.INFO)
 
 # region -- VAR --
 app_theme: list[str] = [""]
+get_modul: list = [""]
 dark_color: str = "#4f4f4f"
 light_color: str = "#67b5ff"
 border_radius: int = 4
@@ -26,15 +25,21 @@ menu_font: tuple = ("Helvetica", 18)
 small_font: tuple = ("Helvetica", 14)
 medium_font: tuple = ("Helvetica", 18)
 large_font: tuple = ("Helvetica", 22)
-layout_config: dict = {"fg_color": "transparent", "border_width": 1}
+layout_config: dict = {
+    "fg_color": "transparent",
+    "border_width": 1,
+    "corner_radius": border_radius,
+}
 
-left_label_config: dict = {
+left_btn_config: dict = {
     "font": medium_font,
     "anchor": "w",
     "compound": "left",
-    "padx": 10,
     "height": 80,
     "corner_radius": border_radius,
+    "fg_color": "transparent",
+    "hover": False,
+    "text_color": ("black", "white"),
 }
 
 
@@ -202,6 +207,8 @@ def pick_logo():
 # endregion
 #
 # region -- LeftFrame --
+
+def 
 # left frame buttons
 cfg_frame: dict = {
     "api": [
@@ -232,13 +239,13 @@ cfg_frame: dict = {
 # --
 
 
-def make_frame_label(
+def make_frame_btns(
     self,
     frame_name: str,
     frame_row: int,
     frame_col: int,
-    label_name: str,
-    label_txt: str,
+    btn_name: str,
+    btn_txt: str,
     img,
 ) -> None:
     """tvorba framu a jeho buttns"""
@@ -246,17 +253,22 @@ def make_frame_label(
     frame = ctk.CTkFrame(self)
     setattr(self, frame_name, frame)
     # --
-    label = ctk.CTkLabel(
+    btn = ctk.CTkButton(
         frame,
-        text=label_txt,
+        text=btn_txt,
         image=img,
-        **left_label_config,
+        **left_btn_config,
     )
-    setattr(self, label_name, label)
-    label.bind("<Button-1>", button_1)
+    setattr(self, btn_name, btn)
+    btn.bind("<Button-1>", button_1)
     # --
     frame.grid(row=frame_row, column=frame_col, sticky="ew", padx=2, pady=1)
-    label.pack(fill="x", side="top", expand=True)
+    btn.pack(fill="x", side="top", expand=True)
+    # --
+    # aktivace btn pri spusteni apky
+    self.default_btn = ".!mainframe.!leftframe.!ctkframe.!ctkbutton"
+    self.default_btn_widget = self.parent.nametowidget(self.default_btn)
+    self.default_btn_widget.configure(fg_color=(light_color, dark_color))
     # konec funkce
 
 
@@ -289,6 +301,7 @@ def run_and_control(self, trida):
     # --
     return instance
     # konec funkce
+
 
 
 def file_loader():
@@ -339,13 +352,14 @@ def button_1(event) -> None:
     #
     widget = event.widget.master  # label
     widget_text = widget.cget("text")
+    ic(widget_text)
     grand_parent = widget.master.master  # cely LeftFrame
     # --
     for frame in grand_parent.winfo_children():
         for label in frame.winfo_children():
             label.configure(fg_color="transparent")
     # --
-    widget.configure(fg_color=(light_color, "#4f4f4f"))
+    widget.configure(fg_color=(light_color, dark_color))
     # konec funkce
 
 
@@ -365,6 +379,16 @@ def get_family(self):
     # servisni funkce
     temp = self.main_frame.left_frame.winfo_children()
     labels: list = [item.winfo_children() for item in temp]
+    # konec funkce
+
+
+def read_settings(vstup):
+    """read settings"""
+    #
+    with open(vstup, "r", encoding="utf-8") as file:
+        settings = json.load(file)
+    # --
+    return settings
     # konec funkce
 
 

@@ -1,2 +1,4 @@
 INFO:root:Rozliseni: 1024 x 768.
 INFO:root:Theme: dark, barva: blue
+ERROR:root:Mongo: connect False
+INFO:root:instance is running. .!mainframe.!logoframe
