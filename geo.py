@@ -1,5 +1,7 @@
 import customtkinter as ctk
 
+import config as conf
+
 
 class Geo(ctk.CTkFrame):
     def __init__(self, parent) -> None:

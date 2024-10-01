@@ -22,12 +22,11 @@ class App(ctk.CTk):
     #
     def __init__(self) -> None:
         self.theme: str = settings["theme"]
-        self.color: str = "blue"
-        self.mongo_db = False
+        self.mongo_db = True
         # --
         super().__init__()
         conf.app_init(self, "mapibase", 1024, 768)
-        conf.appearance(self.theme, self.color, ctk)
+        conf.appearance(self.theme, ctk)
         conf.create_menu(self, mb, cdm, self.mongo_db, ctk)
         # --
         # volame tridy
@@ -73,10 +72,8 @@ class LogoFrame(ctk.CTkFrame):
             height=100,
             compound="center",
         )
-        self.logo_label.grid(row=0, column=0, sticky="nsew", padx=2, pady=2)
+        self.logo_label.pack(fill="both", side="top", expand=True, padx=2, pady=2)
         # --
-        self.columnconfigure(0, weight=0, minsize=180, uniform="a")
-        self.rowconfigure(0, weight=0, minsize=100, uniform="a")
 
 
 class LeftFrame(ctk.CTkFrame):
@@ -87,12 +84,8 @@ class LeftFrame(ctk.CTkFrame):
         super().__init__(parent, **conf.layout_config)
         self.grid(row=1, column=0, sticky="nsew", padx=2, pady=2)
         # --
-        for name in conf.cfg_frame:
-            conf.make_frame_btns(self, *conf.cfg_frame[name])
+        conf.btns_maker(self)
         # --
-        # LeftFrame GRID
-        self.columnconfigure(0, weight=1, minsize=180, uniform="a")
-        #
 
 
 class PlayGround(ctk.CTkFrame):

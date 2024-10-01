@@ -1,6 +1,5 @@
 # region Importy
 import json
-from lib2to3.fixes.fix_next import bind_warning
 import logging as lg
 import os
 from pathlib import Path
@@ -20,6 +19,8 @@ app_theme: list[str] = [""]
 get_modul: list = [""]
 dark_color: str = "#4f4f4f"
 light_color: str = "#67b5ff"
+btn_light: str = "#d5d5d5"
+btn_dark: str = "#2e2e2e"
 border_radius: int = 4
 menu_font: tuple = ("Helvetica", 18)
 small_font: tuple = ("Helvetica", 14)
@@ -37,7 +38,7 @@ left_btn_config: dict = {
     "compound": "left",
     "height": 80,
     "corner_radius": border_radius,
-    "fg_color": "transparent",
+    "fg_color": (btn_light, btn_dark),
     "hover": False,
     "text_color": ("black", "white"),
 }
@@ -57,16 +58,16 @@ def img_loader(vstup_dir: str, size_img: int):
 # region -- APP --
 
 
-def appearance(theme: str, color: str, ctk) -> None:
+def appearance(theme: str, ctk) -> None:
     # nastaveni Theme a scalingu
     #
     ctk.set_appearance_mode(theme)
-    ctk.set_default_color_theme(color)
+    ctk.set_default_color_theme("blue")
     app_theme[0] = theme
     # --
     ctk.set_widget_scaling(1.0)
     ctk.set_window_scaling(1.0)
-    lg.info("Theme: %s, barva: %s", theme, color)
+    lg.info("Theme: %s", theme)
     # konec funkce
 
 
@@ -208,53 +209,41 @@ def pick_logo():
 #
 # region -- LeftFrame --
 
-def 
-# left frame buttons
-cfg_frame: dict = {
-    "api": [
-        "api_frame",
-        0,
-        0,
-        "api_label",
-        "A.P.I",
-        img_loader("./assets/api_40.png", 30),
-    ],
-    "mongo": [
-        "mongo_frame",
-        1,
-        0,
-        "mongo_label",
-        "MongoDB",
-        img_loader("./assets/mongo_40.png", 30),
-    ],
-    "geo": [
-        "geo_frame",
-        2,
-        0,
-        "geo_label",
-        "G.E.O.",
-        img_loader("./assets/geo_40.png", 30),
-    ],
-}
-# --
+
+def btns_maker(self) -> None:
+    # left frame buttons
+    cfg_frame: dict = {
+        "api": [
+            "api_btn",
+            "A.P.I",
+            img_loader("./assets/api_40.png", 30),
+        ],
+        "mongo": [
+            "mongo_btn",
+            "MongoDB",
+            img_loader("./assets/mongo_40.png", 30),
+        ],
+        "geo": [
+            "geo_btn",
+            "G.E.O.",
+            img_loader("./assets/geo_40.png", 30),
+        ],
+    }
+    # --
+    for name in cfg_frame:
+        make_frame_btns(self, *cfg_frame[name])
 
 
 def make_frame_btns(
     self,
-    frame_name: str,
-    frame_row: int,
-    frame_col: int,
     btn_name: str,
     btn_txt: str,
     img,
 ) -> None:
     """tvorba framu a jeho buttns"""
     #
-    frame = ctk.CTkFrame(self)
-    setattr(self, frame_name, frame)
-    # --
     btn = ctk.CTkButton(
-        frame,
+        self,
         text=btn_txt,
         image=img,
         **left_btn_config,
@@ -262,13 +251,12 @@ def make_frame_btns(
     setattr(self, btn_name, btn)
     btn.bind("<Button-1>", button_1)
     # --
-    frame.grid(row=frame_row, column=frame_col, sticky="ew", padx=2, pady=1)
-    btn.pack(fill="x", side="top", expand=True)
+    btn.pack(fill="x", side="top", expand=False, padx=2, pady=1)
     # --
     # aktivace btn pri spusteni apky
-    self.default_btn = ".!mainframe.!leftframe.!ctkframe.!ctkbutton"
-    self.default_btn_widget = self.parent.nametowidget(self.default_btn)
-    self.default_btn_widget.configure(fg_color=(light_color, dark_color))
+    default_btn_name = ".!mainframe.!leftframe.!ctkbutton"
+    default_btn_widget = self.parent.nametowidget(default_btn_name)
+    default_btn_widget.configure(fg_color=(light_color, dark_color))
     # konec funkce
 
 
@@ -301,7 +289,6 @@ def run_and_control(self, trida):
     # --
     return instance
     # konec funkce
-
 
 
 def file_loader():
@@ -350,14 +337,13 @@ def file_saver() -> str:
 def button_1(event) -> None:
     """clicknuti mysi"""
     #
-    widget = event.widget.master  # label
+    widget = event.widget.master
     widget_text = widget.cget("text")
-    ic(widget_text)
-    grand_parent = widget.master.master  # cely LeftFrame
+    get_modul[0] = widget_text  # ziskani jmena modulu
+    grand_parent = widget.master
     # --
-    for frame in grand_parent.winfo_children():
-        for label in frame.winfo_children():
-            label.configure(fg_color="transparent")
+    for btn in grand_parent.winfo_children():
+        btn.configure(fg_color=(btn_light, btn_dark))
     # --
     widget.configure(fg_color=(light_color, dark_color))
     # konec funkce
