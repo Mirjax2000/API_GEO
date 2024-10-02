@@ -63,15 +63,7 @@ class LogoFrame(ctk.CTkFrame):
         super().__init__(parent, **conf.layout_config)
         self.grid(row=0, column=0, sticky="nsew", padx=2, pady=2)
         # --
-        self.logo_label = ctk.CTkLabel(
-            self,
-            text="",
-            image=conf.pick_logo(),
-            fg_color="transparent",
-            width=180,
-            height=100,
-            compound="center",
-        )
+        self.logo_label = ctk.CTkLabel(self, image=conf.pick_logo(), **conf.logo_label)
         self.logo_label.pack(fill="both", side="top", expand=True, padx=2, pady=2)
         # --
 
@@ -96,6 +88,21 @@ class PlayGround(ctk.CTkFrame):
         super().__init__(parent, fg_color="transparent")
         self.grid(row=0, rowspan=2, column=1, sticky="nsew", padx=2, pady=2)
         # --
+        self.modul = "A.P.I."
+        self.api = conf.run_and_control(self, Api)
+        # --
+
+    def mrkni_na_modul(self):
+        ic(self.winfo_children())
+        if self.modul != self.winfo_children():
+            conf.vymaz_deti(self)
+        match self.modul:
+            case "A.P.I.":
+                self.api = conf.run_and_control(self, Api)
+            case "MongoDB":
+                self.mongo = conf.run_and_control(self, Mongo)
+            case "G.E.O.":
+                self.geo = conf.run_and_control(self, Geo)
 
 
 if __name__ == "__main__":

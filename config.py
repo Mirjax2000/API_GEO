@@ -16,7 +16,6 @@ lg.basicConfig(filename="./app.log", filemode="w", level=lg.INFO)
 
 # region -- VAR --
 app_theme: list[str] = [""]
-get_modul: list = [""]
 dark_color: str = "#4f4f4f"
 light_color: str = "#67b5ff"
 btn_light: str = "#d5d5d5"
@@ -41,6 +40,13 @@ left_btn_config: dict = {
     "fg_color": (btn_light, btn_dark),
     "hover": False,
     "text_color": ("black", "white"),
+}
+logo_label: dict = {
+    "text": "",
+    "fg_color": "transparent",
+    "width": 180,
+    "height": 100,
+    "compound": "center",
 }
 
 
@@ -215,7 +221,7 @@ def btns_maker(self) -> None:
     cfg_frame: dict = {
         "api": [
             "api_btn",
-            "A.P.I",
+            "A.P.I.",
             img_loader("./assets/api_40.png", 30),
         ],
         "mongo": [
@@ -249,7 +255,7 @@ def make_frame_btns(
         **left_btn_config,
     )
     setattr(self, btn_name, btn)
-    btn.bind("<Button-1>", button_1)
+    btn.bind("<Button-1>", lambda event: button_1(event, self))
     # --
     btn.pack(fill="x", side="top", expand=False, padx=2, pady=1)
     # --
@@ -334,18 +340,27 @@ def file_saver() -> str:
     # konec funkce
 
 
-def button_1(event) -> None:
+def button_1(event, self) -> None:
     """clicknuti mysi"""
     #
     widget = event.widget.master
     widget_text = widget.cget("text")
-    get_modul[0] = widget_text  # ziskani jmena modulu
+    self.parent.playground.modul = widget_text
     grand_parent = widget.master
     # --
     for btn in grand_parent.winfo_children():
         btn.configure(fg_color=(btn_light, btn_dark))
     # --
     widget.configure(fg_color=(light_color, dark_color))
+    self.parent.playground.mrkni_na_modul()
+    # konec funkce
+
+
+def vymaz_deti(self):
+    """smaze vytvorene moduly"""
+    #
+    children = self.winfo_children()
+    children[0].destroy()
     # konec funkce
 
 

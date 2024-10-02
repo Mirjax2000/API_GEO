@@ -3,5 +3,7 @@ INFO:root:Theme: dark
 INFO:root:Mongo: connect True
 INFO:root:instance is running. .!mainframe.!logoframe
 INFO:root:instance is running. .!mainframe.!leftframe
+INFO:root:instance is running. .!mainframe.!playground.!api
 INFO:root:instance is running. .!mainframe.!playground
 INFO:root:instance is running. .!mainframe
+INFO:root:instance is running. .!mainframe.!playground.!api2
