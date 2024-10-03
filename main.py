@@ -1,4 +1,5 @@
 import logging as lg
+from dataclasses import Field, InitVar, dataclass
 from tkinter import W
 
 import customtkinter as ctk
@@ -13,7 +14,7 @@ from modules.geo import Geo
 from modules.mongo import Mongo
 
 # load settings
-settings_file: str = "./settings.json"
+settings_file: str = "./configs/settings.json"
 settings: dict = conf.read_settings(settings_file)
 
 
@@ -110,6 +111,13 @@ class PlayGround(ctk.CTkFrame):
                 self.mongo = conf.run_and_control(self, Mongo)
             case "G.E.O.":
                 self.geo = conf.run_and_control(self, Geo)
+
+
+@dataclass()
+class Skladiste:
+    """jeste nevim"""
+
+    pass
 
 
 if __name__ == "__main__":

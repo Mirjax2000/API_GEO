@@ -2,9 +2,12 @@ import customtkinter as ctk
 import tkintermapview as map
 from icecream import ic
 import configs.config as conf
+import configs.geo_config as geoconf
 
 
 class Geo(ctk.CTkFrame):
+    """aktivace GEO modulu"""
+
     def __init__(self, parent) -> None:
         self.parent = parent
         self.lat: float = 49.8038
@@ -27,12 +30,10 @@ class Geo(ctk.CTkFrame):
         self.body.pack(fill="both", side="top", expand=True)
         # --
         self.map = map.TkinterMapView(self.body)
-        self.map.pack(fill="both", side="top", expand=True)
-        self.map.set_tile_server(
-            "https://api.mapy.cz/v1/maptiles/basic/256/{z}/{x}/{y}?lang=cs&apikey=tS3213LT9X_tLBWD3vmiynClzyn32dpj5etTL1BaT54",
-            max_zoom=18,
-        )
-
+        self.map.pack(fill="both", side="top", expand=True, pady=2, padx=2)
+        # -- mapovy server
+        self.map.set_tile_server(geoconf.mapy_cz_server)
+        # --
         self.map.set_position(self.lat, self.long)
         self.map.set_zoom(self.zoom)
         self.marker_1 = self.map.set_address("Praha", marker=True)
