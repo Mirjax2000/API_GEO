@@ -7,7 +7,7 @@ from CTkMenuBar import CTkMenuBar as mb
 from CTkMenuBar import CustomDropdownMenu as cdm
 from icecream import ic
 
-import config as conf
+import configs.config as conf
 from api import Api
 from geo import Geo
 from mongo import Mongo
@@ -15,7 +15,6 @@ from mongo import Mongo
 # load settings
 settings_file: str = "./settings.json"
 settings: dict = conf.read_settings(settings_file)
-# --
 
 
 class App(ctk.CTk):
@@ -63,9 +62,18 @@ class LogoFrame(ctk.CTkFrame):
         super().__init__(parent, **conf.layout_config)
         self.grid(row=0, column=0, sticky="nsew", padx=2, pady=2)
         # --
-        self.logo_label = ctk.CTkLabel(self, image=conf.pick_logo(), **conf.logo_label)
-        self.logo_label.pack(fill="both", side="top", expand=True, padx=2, pady=2)
-        # --
+        self.logo_label = ctk.CTkLabel(
+            self,
+            image=conf.pick_logo(),
+            **conf.logo_label,
+        )
+        self.logo_label.pack(
+            fill="both",
+            side="top",
+            expand=True,
+            padx=2,
+            pady=2,
+        )
 
 
 class LeftFrame(ctk.CTkFrame):
@@ -77,7 +85,6 @@ class LeftFrame(ctk.CTkFrame):
         self.grid(row=1, column=0, sticky="nsew", padx=2, pady=2)
         # --
         conf.btns_maker(self)
-        # --
 
 
 class PlayGround(ctk.CTkFrame):
@@ -90,12 +97,12 @@ class PlayGround(ctk.CTkFrame):
         # --
         self.modul = "A.P.I."
         self.api = conf.run_and_control(self, Api)
-        # --
 
     def mrkni_na_modul(self):
-        ic(self.winfo_children())
+        """aktivace tridy podle tlacitka"""
         if self.modul != self.winfo_children():
             conf.vymaz_deti(self)
+            #
         match self.modul:
             case "A.P.I.":
                 self.api = conf.run_and_control(self, Api)

@@ -257,7 +257,7 @@ def make_frame_btns(
     setattr(self, btn_name, btn)
     btn.bind("<Button-1>", lambda event: button_1(event, self))
     # --
-    btn.pack(fill="x", side="top", expand=False, padx=2, pady=1)
+    btn.pack(fill="x", side="top", expand=False, padx=1, pady=1)
     # --
     # aktivace btn pri spusteni apky
     default_btn_name = ".!mainframe.!leftframe.!ctkbutton"
@@ -360,7 +360,8 @@ def vymaz_deti(self):
     """smaze vytvorene moduly"""
     #
     children = self.winfo_children()
-    children[0].destroy()
+    for item in children:
+        item.destroy()
     # konec funkce
 
 

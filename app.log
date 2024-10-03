@@ -6,4 +6,6 @@ INFO:root:instance is running. .!mainframe.!leftframe
 INFO:root:instance is running. .!mainframe.!playground.!api
 INFO:root:instance is running. .!mainframe.!playground
 INFO:root:instance is running. .!mainframe
+INFO:geocoder.base:Requested https://nominatim.openstreetmap.org/search?q=Praha&format=jsonv2&addressdetails=1&limit=1
+INFO:root:instance is running. .!mainframe.!playground.!geo
 INFO:root:instance is running. .!mainframe.!playground.!api2
