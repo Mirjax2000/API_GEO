@@ -8,9 +8,9 @@ from CTkMenuBar import CustomDropdownMenu as cdm
 from icecream import ic
 
 import configs.config as conf
-from api import Api
-from geo import Geo
-from mongo import Mongo
+from modules.api import Api
+from modules.geo import Geo
+from modules.mongo import Mongo
 
 # load settings
 settings_file: str = "./settings.json"
