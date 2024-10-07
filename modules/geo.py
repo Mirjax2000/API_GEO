@@ -47,7 +47,13 @@ class Geo(ctk.CTkFrame):
             command=conf.file_loader,
             **geoconf.header_btn_config
         )
-        self.erase_data.grid(row=0, column=2, sticky="e", padx=4, pady=4)
+        self.erase_data.grid(row=0, column=2, sticky="nse", padx=4, pady=4)
+        # ----------------------------------
+        # Header GRID
+        self.header.rowconfigure(0, weight=0, uniform="a")
+        self.header.columnconfigure(0, weight=0, uniform="a")
+        self.header.columnconfigure(1, weight=1, uniform="b")
+        self.header.columnconfigure(2, weight=0, uniform="a")
         # ----------------------------------
         # -- Frame
         self.set_map = ctk.CTkFrame(self, **conf.layout_config)
@@ -55,8 +61,7 @@ class Geo(ctk.CTkFrame):
         # --
         set_server_val: list = [
             "Mapy.cz",
-            "Google: normal",
-            "Google: satellite",
+            "Google",
             "OpenStreet map",
         ]
         self.vyber_server = ctk.CTkOptionMenu(
@@ -87,7 +92,7 @@ class Geo(ctk.CTkFrame):
         self.vyber_vrstvu.set("basic")
         self.vyber_vrstvu.grid(row=0, column=1, sticky="w", pady=5, padx=5)
 
-        # --
+        # ---------------------------------------
         # --
         self.body = ctk.CTkFrame(self, **conf.layout_config)
         self.body.pack(fill="both", side="top", expand=True)

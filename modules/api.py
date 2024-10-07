@@ -11,8 +11,7 @@ class Api(ctk.CTkFrame):
         self.parent = parent
         super().__init__(parent, fg_color="transparent", corner_radius=8)
         self.pack(fill="both", side="top", expand=True)
-        # --
-        ic("api aktivovano")
+        # ------------------------------------
         self.header = ctk.CTkFrame(self, height=104, **conf.layout_config)
         self.header.pack(
             fill="x",
@@ -20,7 +19,8 @@ class Api(ctk.CTkFrame):
             expand=False,
             pady=(0, 4),
         )
-        # --
+        # ----------------------------------
+        # header children
         self.load_data = ctk.CTkButton(
             self.header,
             text="Load Data",
@@ -38,7 +38,7 @@ class Api(ctk.CTkFrame):
             **apiconf.header_btn_config
         )
         self.save_data.grid(row=0, column=2, sticky="nse", pady=4, padx=4)
-        # --
+        # ---------------------------------------------
         # Header GRID
         self.header.rowconfigure(0, weight=0, uniform="a")
         self.header.columnconfigure(0, weight=0, uniform="a")

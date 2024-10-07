@@ -103,25 +103,25 @@ class PlayGround(ctk.CTkFrame):
 
     def mrkni_na_modul(self) -> None:
 
-        name = (
+        name: str = (
             str(list(str(self.winfo_children()).strip().split("!"))[-1])
             .replace(">", "")
             .replace("]", "")
         )
-        name = name[:3]
+        name: str = name[:3]
         if name != self.modul:
             conf.vymaz_deti(self)
 
             match self.modul:
                 case "api":
-                    self.api = conf.run_and_control(self, Api)
+                    self.api: Api = conf.run_and_control(self, Api)
 
                     # --
                 case "mon":
-                    self.mongodb = conf.run_and_control(self, Mongo)
+                    self.mongodb: Mongo = conf.run_and_control(self, Mongo)
                 # --
                 case "geo":
-                    self.geo = conf.run_and_control(self, Geo)
+                    self.geo: Geo = conf.run_and_control(self, Geo)
                 # --
 
 

@@ -57,3 +57,9 @@ goo_sat = {
 open_s:dict[str,str] = {"url":"https://nominatim.openstreetmap.org/search"}
 
 # endregion
+
+# region vrstvy map
+vrstvy_map:dict={
+    "mapy_cz":["basic", "winter", "outdoor", "aerial"],
+    "google":['normal','sattelite']}
+# endregion
