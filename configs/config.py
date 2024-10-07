@@ -112,8 +112,9 @@ def create_menu(self, mb, cdm, mongo, ctk) -> None:
     menu = mb(self, height=40, padx=10, bg_color=("#dbdbdb", "#2b2b2b"))
     buttons: dict = {
         "system_btn": " System ",
-        "settings_btn": " Settings ",
-        "info_btn": " Info ",
+        "api_btn": " A.P.I. ",
+        "mongo_btn": " Mongo ",
+        "geo_btn": " G.E.O ",
     }
     column: int = len(buttons)  # pocet menu btns
     # --
@@ -129,17 +130,20 @@ def create_menu(self, mb, cdm, mongo, ctk) -> None:
     # --
     # drop menu
     system_drop = cdm(widget=self.system_btn, **config)
-    self.system_settings = system_drop.add_option(
+    self.system = system_drop.add_option(
         "Settings", command=lambda: change_theme(self, ctk)
     )
     system_drop.add_separator()
     self.konec = system_drop.add_option("Exit", command=self.destroy)
     # --
-    settings_drop = cdm(widget=self.settings_btn, **config)
-    self.api_settings = settings_drop.add_option("API settings")
+    api_drop = cdm(widget=self.api_btn, **config)
+    self.api = api_drop.add_option("API settings")
     # --
-    info_drop = cdm(widget=self.info_btn, **config)
-    self.about = info_drop.add_option("About")
+    mongo_drop = cdm(widget=self.mongo_btn, **config)
+    self.mongo = mongo_drop.add_option("Mongo: settings")
+    # --
+    geo_drop = cdm(widget=self.geo_btn, **config)
+    self.geo = geo_drop.add_option("G.E.O.: settings")
     # --
     # end drop menu -------------------------
     # --
@@ -344,8 +348,11 @@ def button_1(event, self) -> None:
     """clicknuti mysi"""
     #
     widget = event.widget.master
-    widget_text = widget.cget("text")
+    # rozborka textu
+    widget_text: str = widget.cget("text").lower().strip().replace(".", "")[:3]
+
     self.parent.playground.modul = widget_text
+    # --
     grand_parent = widget.master
     # --
     for btn in grand_parent.winfo_children():

@@ -96,21 +96,33 @@ class PlayGround(ctk.CTkFrame):
         super().__init__(parent, fg_color="transparent")
         self.grid(row=0, rowspan=2, column=1, sticky="nsew", padx=2, pady=2)
         # --
-        self.modul = "A.P.I."
+        # defaultni modul pri startu systemu
+        self.modul = "api"
         self.api = conf.run_and_control(self, Api)
+        # --
 
-    def mrkni_na_modul(self):
-        """aktivace tridy podle tlacitka"""
-        if self.modul != self.winfo_children():
+    def mrkni_na_modul(self) -> None:
+
+        name = (
+            str(list(str(self.winfo_children()).strip().split("!"))[-1])
+            .replace(">", "")
+            .replace("]", "")
+        )
+        name = name[:3]
+        if name != self.modul:
             conf.vymaz_deti(self)
-            #
-        match self.modul:
-            case "A.P.I.":
-                self.api = conf.run_and_control(self, Api)
-            case "MongoDB":
-                self.mongo = conf.run_and_control(self, Mongo)
-            case "G.E.O.":
-                self.geo = conf.run_and_control(self, Geo)
+
+            match self.modul:
+                case "api":
+                    self.api = conf.run_and_control(self, Api)
+
+                    # --
+                case "mon":
+                    self.mongodb = conf.run_and_control(self, Mongo)
+                # --
+                case "geo":
+                    self.geo = conf.run_and_control(self, Geo)
+                # --
 
 
 @dataclass()

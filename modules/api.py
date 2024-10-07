@@ -1,4 +1,5 @@
 import customtkinter as ctk
+import requests
 from icecream import ic
 
 import configs.api_config as apiconf
@@ -11,7 +12,7 @@ class Api(ctk.CTkFrame):
         super().__init__(parent, fg_color="transparent", corner_radius=8)
         self.pack(fill="both", side="top", expand=True)
         # --
-        ic("apik aktivovano")
+        ic("api aktivovano")
         self.header = ctk.CTkFrame(self, height=104, **conf.layout_config)
         self.header.pack(
             fill="x",
@@ -23,26 +24,18 @@ class Api(ctk.CTkFrame):
         self.load_data = ctk.CTkButton(
             self.header,
             text="Load Data",
-            fg_color=(conf.btn_light, conf.btn_dark),
-            text_color=("black", "white"),
-            font=conf.small_font,
-            hover_color=(conf.light_color, conf.dark_color),
-            compound="top",
             image=conf.img_loader("./assets/add_file_40.png", 40),
             command=conf.file_loader,
+            **apiconf.header_btn_config
         )
         self.load_data.grid(row=0, column=0, sticky="nsw", pady=4, padx=4)
         # --
         self.save_data = ctk.CTkButton(
             self.header,
-            text="Save Data",
-            fg_color=(conf.btn_light, conf.btn_dark),
-            text_color=("black", "white"),
-            font=conf.small_font,
-            hover_color=(conf.light_color, conf.dark_color),
-            compound="top",
+            text="Save Data: Empty",
             image=conf.img_loader("./assets/icons8-save-close-40.png", 40),
             state="disabled",
+            **apiconf.header_btn_config
         )
         self.save_data.grid(row=0, column=2, sticky="nse", pady=4, padx=4)
         # --
