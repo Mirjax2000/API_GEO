@@ -14,7 +14,9 @@ header_btn_config: dict = {
 
 # region MAPY.CZ
 mapy_cz: dict = {
-    "url": "https://api.mapy.cz/v1/maptiles/basic/256/",
+    "url": "https://api.mapy.cz/v1/maptiles/",
+    'size':256,
+    "vrstva":["basic", "winter", "outdoor", "aerial"],
     "zoom": "{z}",
     "x": "{x}",
     "y": "{y}",
@@ -24,8 +26,22 @@ mapy_cz: dict = {
 }
 
 mapy_cz_server:str = (
-    f"{mapy_cz["url"]}{mapy_cz["zoom"]}/{mapy_cz['x']}/{mapy_cz['y']}?lang={mapy_cz['lang']}&apikey={mapy_cz['api_key']}"
+    f"{mapy_cz["url"]}/{mapy_cz["vrstva"][0]}/{mapy_cz["size"]}/{mapy_cz["zoom"]}/{mapy_cz['x']}/{mapy_cz['y']}?lang={mapy_cz['lang']}&apikey={mapy_cz['api_key']}"
 )
+#
+mapy_cz_server_winter:str = (
+    f"{mapy_cz["url"]}/{mapy_cz["vrstva"][1]}/{mapy_cz["size"]}/{mapy_cz["zoom"]}/{mapy_cz['x']}/{mapy_cz['y']}?lang={mapy_cz['lang']}&apikey={mapy_cz['api_key']}"
+)
+#
+mapy_cz_server_outdoor:str = (
+    f"{mapy_cz["url"]}/{mapy_cz["vrstva"][2]}/{mapy_cz["size"]}/{mapy_cz["zoom"]}/{mapy_cz['x']}/{mapy_cz['y']}?lang={mapy_cz['lang']}&apikey={mapy_cz['api_key']}"
+)
+#
+mapy_cz_server_aerial:str = (
+    f"{mapy_cz["url"]}/{mapy_cz["vrstva"][3]}/{mapy_cz["size"]}/{mapy_cz["zoom"]}/{mapy_cz['x']}/{mapy_cz['y']}?lang={mapy_cz['lang']}&apikey={mapy_cz['api_key']}"
+)
+#
+
 # endregion
 
 # region Google: normal and satellite

@@ -80,7 +80,7 @@ class Geo(ctk.CTkFrame):
         self.vyber_server.grid(row=0, column=0, sticky="w", pady=5, padx=5)
 
         # -- mapy vrstvy
-        set_mapy_vrstvy: list = ["basic", "winter", "outdoor", "aerial"]
+        set_mapy_vrstvy: list = geoconf.vrstvy_map["mapy_cz"]
         self.mapy_vrstvy = ctk.CTkOptionMenu(
             self.set_map,
             width=150,
@@ -92,11 +92,11 @@ class Geo(ctk.CTkFrame):
         )
 
         self.mapy_vrstvy.set(set_mapy_vrstvy[0])
-        self.mapy_vrstvy.grid(row=0, column=1, sticky="w", pady=5, padx=5)
+        self.mapy_vrstvy.grid(row=0, column=1, sticky="wns", pady=5, padx=5)
         #
         self.mapy_vrstvy.grid_remove()
         # -- google vrstva
-        set_google_vrstva: list[str] = ["normal", "sattelite"]
+        set_google_vrstva: list[str] = geoconf.vrstvy_map["google"]
         self.google_vrstva = ctk.CTkOptionMenu(
             self.set_map,
             width=150,
@@ -108,10 +108,36 @@ class Geo(ctk.CTkFrame):
         )
 
         self.google_vrstva.set(set_google_vrstva[0])
-        self.google_vrstva.grid(row=0, column=1, sticky="w", pady=5, padx=5)
+        self.google_vrstva.grid(row=0, column=1, sticky="wns", pady=5, padx=5)
         #
         self.google_vrstva.grid_remove()
+        # --
+        self.entry = ctk.CTkEntry(
+            self.set_map,
+            width=350,
+            placeholder_text="search",
+            placeholder_text_color=("gray", "gray"),
+            font=conf.small_font,
+        )
+        self.entry.grid(row=0, column=2, sticky="nse", padx=5, pady=5)
+        # --
+        self.home = ctk.CTkButton(
+            self.set_map,
+            text="HOME",
+            fg_color=(conf.btn_light, conf.btn_dark),
+            text_color=("black", "white"),
+            font=conf.small_font,
+            hover_color=(conf.light_color, conf.dark_color),
+            command=self.center_home,
+        )
+        self.home.grid(row=0, column=3, sticky="nse", pady=5, padx=5)
         # ---------------------------------------
+        # self.set_map GRID
+        self.set_map.rowconfigure(0, weight=0, uniform="a")
+        self.set_map.columnconfigure(0, weight=0, uniform="a")
+        self.set_map.columnconfigure(1, weight=0, uniform="b")
+        self.set_map.columnconfigure(2, weight=1, uniform="c")
+        self.set_map.columnconfigure(3, weight=1, uniform="d")
         # --
         self.body = ctk.CTkFrame(self, **conf.layout_config)
         self.body.pack(fill="both", side="top", expand=True)
@@ -127,21 +153,31 @@ class Geo(ctk.CTkFrame):
     def call_map(self, event) -> None:
         """Vyber mapoveho serveru"""
         if self.default_server == geoconf.mapy_cz_server:
-            self.vrstvy_mapy()
+            self.mapy_vrstvy.grid()
 
         match event:
             case "default":
                 self.map.set_tile_server(self.default_server)
             case "Mapy.cz":
                 self.map.set_tile_server(geoconf.mapy_cz_server)
-                self.vrstvy_mapy()
+                if self.google_vrstva.winfo_ismapped():
+                    self.google_vrstva.grid_remove()
+                    self.mapy_vrstvy.configure(state="normal")
+                    self.mapy_vrstvy.grid()
             case "Google":
                 self.map.set_tile_server(geoconf.google_normal)
-                self.vrstvy_google()
+                if self.mapy_vrstvy.winfo_ismapped():
+                    self.mapy_vrstvy.grid_remove()
+                    self.google_vrstva.configure(state="normal")
+                    self.google_vrstva.grid()
             case "OpenStreet map":
                 self.map.set_tile_server(geoconf.open_server)
+                self.mapy_vrstvy.configure(state="disabled")
+                self.google_vrstva.configure(state="disabled")
+        # konec funkce
 
-    def vrstvy_mapy(self): ...
-    def vrstvy_google(self): ...
-
-    # konec funkce
+    def center_home(self) -> None:
+        """centruj mapu"""
+        self.map.set_position(self.lat, self.long)
+        self.map.set_zoom(self.zoom)
+        # konec funkce

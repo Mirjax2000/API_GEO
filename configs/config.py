@@ -16,10 +16,10 @@ lg.basicConfig(filename="./app.log", filemode="w", level=lg.INFO)
 
 # region -- VAR --
 app_theme: list[str] = [""]
-dark_color: str = "#4f4f4f"
+dark_color: str = "#454545"
 light_color: str = "#67b5ff"
-btn_light: str = "#d5d5d5"
-btn_dark: str = "#2e2e2e"
+btn_light: str = "#cfcfcf"
+btn_dark: str = "#353535"
 border_radius: int = 4
 menu_font: tuple = ("Helvetica", 18)
 small_font: tuple = ("Helvetica", 14)
