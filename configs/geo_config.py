@@ -23,43 +23,27 @@ mapy_cz: dict = {
     "max_zoom": 18,
 }
 
-mapy_cz_server = (
+mapy_cz_server:str = (
     f"{mapy_cz["url"]}{mapy_cz["zoom"]}/{mapy_cz['x']}/{mapy_cz['y']}?lang={mapy_cz['lang']}&apikey={mapy_cz['api_key']}"
 )
 # endregion
 
 # region Google: normal and satellite
-
-goo_norm = {
-    "url": "https://mt0.google.com/vt",  # základní URL bez parametrů
-    "s": "Ga",  
-    "lyrs": "m",  
-    "hl": "en",  
-    "x": "{x}",  
-    "y": "{y}", 
-    "zoom": "{z}",  
-    "max_zoom": 22  
-}
-goo_sat = {
-    "url": "https://mt0.google.com/vt",  # základní URL bez parametrů
-    "s": "Ga",  
-    "lyrs": "s",  
-    "hl": "en",  
-    "x": "{x}",  
-    "y": "{y}", 
-    "zoom": "{z}",  
-    "max_zoom": 22  
-}
+#
+google_normal:str = "https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga"
+# --
+google_sattelite: str= "https://mt0.google.com/vt/lyrs=s&hl=en&x={x}&y={y}&z={z}&s=Ga"
 
 # endregion
 
 # region OpenStreetMap
-open_s:dict[str,str] = {"url":"https://nominatim.openstreetmap.org/search"}
+open_server:str = ("https://a.tile.openstreetmap.org/{z}/{x}/{y}.png")
 
 # endregion
 
 # region vrstvy map
-vrstvy_map:dict={
+vrstvy_map:dict[str,list]={
     "mapy_cz":["basic", "winter", "outdoor", "aerial"],
-    "google":['normal','sattelite']}
+    "google":['normal','sattelite']
+    }
 # endregion
