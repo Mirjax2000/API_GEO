@@ -89,6 +89,7 @@ class Geo(ctk.CTkFrame):
             dynamic_resizing=False,
             text_color=("black", "white"),
             fg_color=(conf.light_color, conf.dark_color),
+            command=self.map_vrstva,
         )
 
         self.mapy_vrstvy.set(set_mapy_vrstvy[0])
@@ -105,6 +106,7 @@ class Geo(ctk.CTkFrame):
             dynamic_resizing=False,
             text_color=("black", "white"),
             fg_color=(conf.light_color, conf.dark_color),
+            command=self.map_vrstva,
         )
 
         self.google_vrstva.set(set_google_vrstva[0])
@@ -139,21 +141,28 @@ class Geo(ctk.CTkFrame):
         self.set_map.columnconfigure(2, weight=1, uniform="c")
         self.set_map.columnconfigure(3, weight=1, uniform="d")
         # --
+        # -- Frame pro mapviewer
         self.body = ctk.CTkFrame(self, **conf.layout_config)
         self.body.pack(fill="both", side="top", expand=True)
         # --
         self.map = map.TkinterMapView(self.body)
         self.map.pack(fill="both", side="top", expand=True, pady=2, padx=2)
         # -- mapovy server
-        # --
+        # -- zavolej defaultni mapovy server
         self.call_map("default")
         self.map.set_position(self.lat, self.long)
         self.map.set_zoom(self.zoom)
 
     def call_map(self, event) -> None:
         """Vyber mapoveho serveru"""
+        # defaultni stav
         if self.default_server == geoconf.mapy_cz_server:
             self.mapy_vrstvy.grid()
+        elif self.default_server == geoconf.google_normal:
+            self.google_vrstva.grid()
+        else:
+            self.mapy_vrstvy.configure(state="disabled")
+            self.google_vrstva.configure(state="disabled")
 
         match event:
             case "default":
@@ -180,4 +189,21 @@ class Geo(ctk.CTkFrame):
         """centruj mapu"""
         self.map.set_position(self.lat, self.long)
         self.map.set_zoom(self.zoom)
+        # konec funkce
+
+    def map_vrstva(self, event) -> None:
+        """switch mapova vrstva"""
+        match event:
+            case "basic":
+                self.map.set_tile_server(geoconf.mapy_cz_server)
+            case "winter":
+                self.map.set_tile_server(geoconf.mapy_cz_server_winter)
+            case "outdoor":
+                self.map.set_tile_server(geoconf.mapy_cz_server_outdoor)
+            case "aerial":
+                self.map.set_tile_server(geoconf.mapy_cz_server_aerial)
+            case "normal":
+                self.map.set_tile_server(geoconf.google_normal)
+            case "sattelite":
+                self.map.set_tile_server(geoconf.google_sattelite)
         # konec funkce
