@@ -115,7 +115,6 @@ class PlayGround(ctk.CTkFrame):
             match self.modul:
                 case "api":
                     self.api: Api = conf.run_and_control(self, Api)
-
                     # --
                 case "mon":
                     self.mongodb: Mongo = conf.run_and_control(self, Mongo)

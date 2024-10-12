@@ -348,6 +348,7 @@ def button_1(event, self) -> None:
     """clicknuti mysi"""
     #
     widget = event.widget.master
+    ic(widget)
     # rozborka textu
     widget_text: str = widget.cget("text").lower().strip().replace(".", "")[:3]
 

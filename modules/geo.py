@@ -17,7 +17,7 @@ class Geo(ctk.CTkFrame):
         self.default_server = geoconf.mapy_cz_server
         self.lat: float = 49.8038
         self.long: float = 15.4749
-        self.zoom: int = 7
+        self.zoom: int = 8
         # --
         super().__init__(parent, fg_color="transparent", corner_radius=8)
         self.pack(fill="both", side="top", expand=True)
@@ -116,30 +116,43 @@ class Geo(ctk.CTkFrame):
         # --
         self.entry = ctk.CTkEntry(
             self.set_map,
-            width=350,
             placeholder_text="search",
             placeholder_text_color=("gray", "gray"),
             font=conf.small_font,
         )
-        self.entry.grid(row=0, column=2, sticky="nse", padx=5, pady=5)
+        self.entry.grid(row=0, column=2, sticky="nswe", padx=5, pady=5)
+        # --
+        self.h_q = ctk.CTkButton(
+            self.set_map,
+            text="Centrala",
+            fg_color=(conf.btn_light, conf.btn_dark),
+            text_color=("black", "white"),
+            image=conf.img_loader("./assets/home_40.png", 15),
+            font=conf.small_font,
+            hover_color=(conf.light_color, conf.dark_color),
+            command=self.get_h_q,
+        )
+        self.h_q.grid(row=0, column=3, sticky="nse", pady=5, padx=5)
         # --
         self.home = ctk.CTkButton(
             self.set_map,
-            text="HOME",
+            text="RESET",
             fg_color=(conf.btn_light, conf.btn_dark),
             text_color=("black", "white"),
+            image=conf.img_loader("./assets/reset-40.png", 15),
             font=conf.small_font,
             hover_color=(conf.light_color, conf.dark_color),
-            command=self.center_home,
+            command=self.reset,
         )
-        self.home.grid(row=0, column=3, sticky="nse", pady=5, padx=5)
+        self.home.grid(row=0, column=4, sticky="nse", pady=5, padx=5)
         # ---------------------------------------
         # self.set_map GRID
         self.set_map.rowconfigure(0, weight=0, uniform="a")
         self.set_map.columnconfigure(0, weight=0, uniform="a")
         self.set_map.columnconfigure(1, weight=0, uniform="b")
         self.set_map.columnconfigure(2, weight=1, uniform="c")
-        self.set_map.columnconfigure(3, weight=1, uniform="d")
+        self.set_map.columnconfigure(3, weight=0, uniform="d")
+        self.set_map.columnconfigure(4, weight=0, uniform="e")
         # --
         # -- Frame pro mapviewer
         self.body = ctk.CTkFrame(self, **conf.layout_config)
@@ -185,11 +198,16 @@ class Geo(ctk.CTkFrame):
                 self.google_vrstva.configure(state="disabled")
         # konec funkce
 
-    def center_home(self) -> None:
+    def reset(self) -> None:
         """centruj mapu"""
         self.map.set_position(self.lat, self.long)
         self.map.set_zoom(self.zoom)
         # konec funkce
+
+    def get_h_q(self) -> None:
+        h_q_marker = self.map.set_marker(50.04604, 14.26131, text="H.Q.")
+        h_q_marker = self.map.set_position(50.04604, 14.26131)
+        self.map.set_zoom(self.zoom)
 
     def map_vrstva(self, event) -> None:
         """switch mapova vrstva"""
