@@ -5,6 +5,9 @@ from CTkMenuBar import CTkMenuBar as mb
 from CTkMenuBar import CustomDropdownMenu as cdm
 
 import configs.config as conf
+from modules.api import Api
+from modules.geo import Geo
+from modules.mongo import Mongo
 
 # import MoreCustomTkinterWidgets as mctk
 # from icecream import ic
