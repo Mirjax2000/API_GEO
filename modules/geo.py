@@ -1,9 +1,10 @@
 from cgitb import text
+from tkinter import PhotoImage
 
 import customtkinter as ctk
-import requests
 import tkintermapview as map
 from icecream import ic
+from PIL import Image, ImageTk
 
 import configs.config as conf
 import configs.geo_config as geoconf
@@ -128,6 +129,7 @@ class Geo(ctk.CTkFrame):
             fg_color=(conf.btn_light, conf.btn_dark),
             text_color=("black", "white"),
             image=conf.img_loader("./assets/home_40.png", 15),
+            compound="left",
             font=conf.small_font,
             hover_color=(conf.light_color, conf.dark_color),
             command=self.get_h_q,
@@ -140,6 +142,7 @@ class Geo(ctk.CTkFrame):
             fg_color=(conf.btn_light, conf.btn_dark),
             text_color=("black", "white"),
             image=conf.img_loader("./assets/reset-40.png", 15),
+            compound="left",
             font=conf.small_font,
             hover_color=(conf.light_color, conf.dark_color),
             command=self.reset,
@@ -202,12 +205,17 @@ class Geo(ctk.CTkFrame):
         """centruj mapu"""
         self.map.set_position(self.lat, self.long)
         self.map.set_zoom(self.zoom)
+        self.map.delete_all_marker()
         # konec funkce
 
     def get_h_q(self) -> None:
-        h_q_marker = self.map.set_marker(50.04604, 14.26131, text="H.Q.")
-        h_q_marker = self.map.set_position(50.04604, 14.26131)
-        self.map.set_zoom(self.zoom)
+        h_q_image = Image.open("./assets/pointer_red_40.png")
+        h_q_icon = ImageTk.PhotoImage(h_q_image)
+
+        self.h_q_marker = self.map.set_marker(
+            50.04604, 14.26131, text="H.Q.", icon=h_q_icon
+        )
+        self.h_q_marker = self.map.set_position(50.04604, 14.26131)
 
     def map_vrstva(self, event) -> None:
         """switch mapova vrstva"""

@@ -1,25 +1,20 @@
-import logging as lg
-from dataclasses import Field, InitVar, dataclass
-from tkinter import W
+"""hlavni frame aplikace"""
 
 import customtkinter as ctk
-import MoreCustomTkinterWidgets as mctk
 from CTkMenuBar import CTkMenuBar as mb
 from CTkMenuBar import CustomDropdownMenu as cdm
-from icecream import ic
 
 import configs.config as conf
-from modules.api import Api
-from modules.geo import Geo
-from modules.mongo import Mongo
 
+# import MoreCustomTkinterWidgets as mctk
+# from icecream import ic
 # load settings
 settings_file: str = "./configs/settings.json"
 settings: dict = conf.read_settings(settings_file)
 
 
 class App(ctk.CTk):
-    #
+    """hlavni apka"""
     def __init__(self) -> None:
         self.theme: str = settings["theme"]
         self.mongo_db = True
@@ -102,6 +97,7 @@ class PlayGround(ctk.CTkFrame):
         # --
 
     def mrkni_na_modul(self) -> None:
+        """kontroluje zmacknute tlacitko"""
 
         name: str = (
             str(list(str(self.winfo_children()).strip().split("!"))[-1])
@@ -122,13 +118,6 @@ class PlayGround(ctk.CTkFrame):
                 case "geo":
                     self.geo: Geo = conf.run_and_control(self, Geo)
                 # --
-
-
-@dataclass()
-class Skladiste:
-    """jeste nevim"""
-
-    pass
 
 
 if __name__ == "__main__":
