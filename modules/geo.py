@@ -37,7 +37,7 @@ class Geo(ctk.CTkFrame):
             text="Load Data",
             image=conf.img_loader("./assets/add_file_40.png", 40),
             command=conf.file_loader,
-            **geoconf.header_btn_config,
+            **geoconf.conf.header_btn_config,
         )
         self.load_data.grid(row=0, column=0, sticky="nsw", pady=4, padx=4)
         # --
@@ -45,8 +45,8 @@ class Geo(ctk.CTkFrame):
             self.header,
             text="Erase Data",
             image=conf.img_loader("./assets/eraser-40.png", 40),
-            command=conf.file_loader,
-            **geoconf.header_btn_config,
+            # command=conf.file_loader,
+            **geoconf.conf.header_btn_config,
         )
         self.erase_data.grid(row=0, column=2, sticky="nse", padx=4, pady=4)
         self.erase_data.configure(state="disabled")
@@ -68,28 +68,20 @@ class Geo(ctk.CTkFrame):
         ]
         self.vyber_server = ctk.CTkOptionMenu(
             self.set_map,
-            width=150,
             values=set_server_val,
-            font=conf.small_font,
-            dynamic_resizing=False,
-            text_color=("black", "white"),
-            fg_color=(conf.light_color, conf.dark_color),
             command=self.call_map,
+            **conf.menu_options_config,
         )
 
-        self.vyber_server.set("Mapy.cz")
+        self.vyber_server.set(set_server_val[0])
         self.vyber_server.grid(row=0, column=0, sticky="w", pady=5, padx=5)
 
         # -- mapy vrstvy
         set_mapy_vrstvy: list = geoconf.vrstvy_map["mapy_cz"]
         self.mapy_vrstvy = ctk.CTkOptionMenu(
             self.set_map,
-            width=150,
             values=set_mapy_vrstvy,
-            font=conf.small_font,
-            dynamic_resizing=False,
-            text_color=("black", "white"),
-            fg_color=(conf.light_color, conf.dark_color),
+            **conf.menu_options_config,
             command=self.map_vrstva,
         )
 
@@ -213,7 +205,7 @@ class Geo(ctk.CTkFrame):
         h_q_icon = ImageTk.PhotoImage(h_q_image)
 
         self.h_q_marker = self.map.set_marker(
-            50.04604, 14.26131, text="H.Q.", icon=h_q_icon
+            50.0526086, 14.2683278, text="H.Q.", icon=h_q_icon
         )
         self.h_q_marker = self.map.set_position(50.04604, 14.26131)
 

@@ -21,10 +21,10 @@ light_color: str = "#67b5ff"
 btn_light: str = "#cfcfcf"
 btn_dark: str = "#353535"
 border_radius: int = 4
-menu_font: tuple = ("Helvetica", 18)
-small_font: tuple = ("Helvetica", 14)
+menu_font: tuple = ("Helvetica", 20)
+small_font: tuple = ("Helvetica", 16)
 medium_font: tuple = ("Helvetica", 18)
-large_font: tuple = ("Helvetica", 22)
+large_font: tuple = ("Helvetica", 24)
 layout_config: dict = {
     "fg_color": "transparent",
     "border_width": 1,
@@ -47,6 +47,22 @@ logo_label: dict = {
     "width": 180,
     "height": 100,
     "compound": "center",
+}
+menu_options_config: dict = {
+    "width": 150,
+    "font": small_font,
+    "dynamic_resizing": False,
+    "text_color": ("black", "white"),
+    "fg_color": (light_color, dark_color),
+    "dropdown_font": medium_font,
+}
+header_btn_config: dict = {
+    "height": 96,
+    "fg_color": (btn_light, btn_dark),
+    "text_color": ("black", "white"),
+    "font": medium_font,
+    "hover_color": (light_color, dark_color),
+    "compound": "top",
 }
 
 
